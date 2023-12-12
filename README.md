@@ -1,3 +1,35 @@
+This module deploys:
+
+- An EKS CLuster with the ability of sizing the nodes 
+- An EFS
+
+The cluster deployed include the add-ons:
+
+- Metrics Server
+- Cert Manager
+- EFS CSI driver
+- ALB controller
+- Ingress nginx
+
+### Module Example
+```
+module "eks" {
+  source  = "scalesafely/eks/aws"
+  version = "1.0.0"
+
+  project_name            = "eks_blueprint"
+  cluster_version         = "1.26" 
+  environment             = "dev"
+  cluster_node_size       = 1
+  instance_types          = "t3.medium"
+  az_coverage             = "2"
+  role_arn                = ["arn:aws:iam::00221155336:role/role"]
+
+  vpc_id                          = module.vpc.vpc_id
+  vpc_private_subnets_id          = module.vpc.private_subnets
+  vpc_private_subnets_cidr_blocks = module.vpc.private_subnets_cidr_blocks
+}
+```
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
